@@ -32,3 +32,6 @@
 #include "Utils/UtilsForOptions.hpp"
 #include "Utils/UtilsForPostProcessing.hpp"
 #include "Utils/UtilsForVariants.hpp"
+#include "Utils/UtilsForTensorialAlgebra.hpp"
+#include "UtilsforUnorderedMap.hpp"
+#include "Maths.hpp"
