@@ -146,6 +146,7 @@ class KKS {
 
  public:
   KKS();
+  void initialize();
   void get_parameters(const CalphadBase<T>& CALPHAD);
   void execute_linearization(
       CalphadBase<T>& CALPHAD, const int dt, const double time_step, const std::vector<T>& tp_gf,

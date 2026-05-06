@@ -68,6 +68,7 @@ template <typename T>
 CalphadBase<T>::CalphadBase(const Parameters& params, bool is_KKS)
     : is_KKS_(is_KKS), params_(params) {
   this->KKS_ = std::make_shared<KKS<T>>();
+  this->KKS_->initialize();
   this->get_parameters();
 }
 

@@ -58,6 +58,8 @@ KKS<T>::KKS() {
       std::make_shared<Coefficient>(Glossary::InterpolationFunction, Scheme::Implicit, H());
 }
 
+template <typename T>
+void KKS<T>::initialize() {}
 /**
  * @brief Get all parameters required by KKS problem
  *

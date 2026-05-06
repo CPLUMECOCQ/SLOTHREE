@@ -32,9 +32,13 @@
 
 #include "Options/Options.hpp"
 
-using param_type = std::variant<int, double, std::string, bool, MapStringDouble,
-                                vTuple2StringDouble, Map2String2Double, MapString2Double, vString,
-                                vInt, vDouble, vTupleStringInt, vTupleStringString>;
+using param_type =
+    std::variant<int, double, std::string, bool, MapStringDouble, vTuple2StringDouble,
+                 Map2String2Double, MapString2Double, vString, vTupleStringInt, vTupleStringString,
+                 vDouble, vInt, std::function<double(double)>, std::vector<std::size_t>,
+                 std::vector<std::vector<std::string>>, std::map<std::string, std::vector<double>>,
+                 std::map<std::string, std::string>, std::map<std::string, std::size_t>,
+                 std::vector<std::function<double(const std::vector<double>&, double)>>>;
 
 class Parameter {
  private:

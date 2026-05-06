@@ -44,7 +44,11 @@ target_include_directories(Sloth SYSTEM PUBLIC
 
 # target_link_directories(Sloth PUBLIC ${MFEM_DIR}/lib  $ENV{HYPRE_DIR}/lib $ENV{MPI_DIR}/lib $ENV{PETSC_DIR}/lib $ENV{METIS_DIR}/lib )
 
-target_link_libraries(Sloth PUBLIC ${MFEM_LIBRARY} ${MPI_CXX_LIBRARIES} z ${HYPRE_LIBRARY} ${SuiteSparse_LIBRARIES} ${METIS_LIBRARY} ${FILESYSTEM_LIB})
+target_include_directories(Sloth PUBLIC /home/cp273896/CODES/hdf5-1.14.6/hdf5/include)
+
+target_link_directories(Sloth PUBLIC /home/cp273896/CODES/hdf5-1.14.6/hdf5/lib)
+
+target_link_libraries(Sloth PUBLIC ${MFEM_LIBRARY} ${MPI_CXX_LIBRARIES} z ${HYPRE_LIBRARY} ${SuiteSparse_LIBRARIES} ${METIS_LIBRARY} ${FILESYSTEM_LIB} hdf5 hdf5_cpp)
 
 
 # PETSC ??
