@@ -67,6 +67,7 @@ class PostProcessing {
   bool enable_compute_energies_;
   bool enable_save_specialized_at_iter_;
   bool force_clean_output_dir_;
+  bool saveGF_;
   std::map<std::string, double> iso_val_to_compute_;
   std::map<std::string, std::tuple<double, double>> integral_to_compute_;
 

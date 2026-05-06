@@ -86,6 +86,7 @@ void PostProcessing<T, DC, DIM>::get_parameters() {
       this->params_.template get_param_value_or_default<int>("level_of_detail", 1);
   this->enable_compute_energies_ =
       this->params_.template get_param_value_or_default<bool>("enable_compute_energies", true);
+  this->saveGF_ = this->params_.template get_param_value_or_default<bool>("saveGF", false);
   this->enable_save_specialized_at_iter_ = this->params_.template get_param_value_or_default<bool>(
       "enable_save_specialized_at_iter", false);
   this->force_clean_output_dir_ =
@@ -142,30 +143,32 @@ void PostProcessing<T, DC, DIM>::save_variables(const Variables<T, DIM>& vars, c
     std::map<std::string, mfem::ParGridFunction> map_var = vars.get_map_gridfunction();
     for (auto& [name, gf] : map_var) {
       this->dc_->RegisterField(name, &gf);
-      // DEBUT CP
-      // Attention cette version fonctionne mais elle passe du // au séquentiel sur l'ensemble
-      // des
-      // coeurs, evidement pas opti et ne peux être viable sur de grosse simulations.
+      if (this->saveGF_) {
+        // DEBUT CP
+        // Attention cette version fonctionne mais elle passe du // au séquentiel sur l'ensemble
+        // des
+        // coeurs, evidement pas opti et ne peux être viable sur de grosse simulations.
 
-      std::filesystem::create_directories(this->main_folder_path_ + "GF");
-      std::filesystem::create_directories(this->main_folder_path_ + "GF/" + name);
-      std::string name_ =
-          this->main_folder_path_ + "GF/" + name + "/" + name + "_" + std::to_string(time);
-      std::string namem_ = this->main_folder_path_ + "GF/" + "mesh_" + std::to_string(time);
-      // std::cout << "0";
-      mfem::ParFiniteElementSpace* pfes = gf.ParFESpace();
-      mfem::ParMesh* temp_pmesh = pfes->GetParMesh();
-      int rank = mfem::Mpi::WorldRank();
-      mfem::Mesh smesh = temp_pmesh->GetSerialMesh(0);
+        std::filesystem::create_directories(this->main_folder_path_ + "GF");
+        std::filesystem::create_directories(this->main_folder_path_ + "GF/" + name);
+        std::string name_ =
+            this->main_folder_path_ + "GF/" + name + "/" + name + "_" + std::to_string(time);
+        std::string namem_ = this->main_folder_path_ + "GF/" + "mesh_" + std::to_string(time);
+        // std::cout << "0";
+        mfem::ParFiniteElementSpace* pfes = gf.ParFESpace();
+        mfem::ParMesh* temp_pmesh = pfes->GetParMesh();
+        int rank = mfem::Mpi::WorldRank();
+        mfem::Mesh smesh = temp_pmesh->GetSerialMesh(0);
 
-      mfem::GridFunction sgf = gf.GetSerialGridFunction(0, smesh);
+        mfem::GridFunction sgf = gf.GetSerialGridFunction(0, smesh);
 
-      if (rank == 0) {
-        sgf.Save(name_.c_str());
-        smesh.Save(namem_.c_str());
+        if (rank == 0) {
+          sgf.Save(name_.c_str());
+          smesh.Save(namem_.c_str());
+        }
+
+        // FIN CP
       }
-
-      // FIN CP
     }
     this->dc_->Save();
   }
