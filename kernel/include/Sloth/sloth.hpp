@@ -43,6 +43,8 @@
 #include "Couplings/Coupling.hpp"
 #include "HyperOctree/HyperOctree.hpp"
 #include "HyperOctree/HyperOctreeGrid.hpp"
+#include "LowRankApprox/TTCores.hpp"
+#include "LowRankApprox/TT_Interpolation.hpp"
 #include "HyperOctree/ImplicitHyperOctree.hpp" 
 #include "HyperOctree/LeafOffset.hpp" 
 #include "HyperOctree/MortonIndex.hpp" 

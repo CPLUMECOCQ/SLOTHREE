@@ -496,56 +496,132 @@ int main(int argc, char* argv[]) {
   std::string calculation_path = "MobilitiesO";
   bool enable_save_specialized_at_iter = true;
   const auto& frequency = 200;
+  std::vector<int> iterations_list = {
+      0,    200,  400,  600,  800,  1000, 1200, 1400, 1600, 1740, 1741, 1742, 1743,
+      1744, 1745, 1746, 1747, 1748, 1749, 1750, 1751, 1752, 1753, 1754, 1755, 1756,
+      1757, 1758, 1759, 1760, 1761, 1762, 1763, 1764, 1765, 1766, 1767, 1768, 1769,
+      1770, 1771, 1772, 1773, 1774, 1775, 1776, 1777, 1778, 1779, 1780, 1781, 1782,
+      1783, 1784, 1785, 1786, 1787, 1788, 1789, 1790, 1791, 1792, 1793, 1794, 1795,
+      1796, 1797, 1798, 1799, 1800, 2000, 2200, 2400, 2600, 2800, 3000, 3200, 3400,
+      3600, 3800, 4000, 4200, 4400, 4600, 4800, 5000, 5200, 5400, 5600, 5800, 6000};
+  bool saveGF = true;
   auto pst_parameters_mob =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
-                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter));
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
+                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
+                 Parameter("saveGF", saveGF));
   auto mob_pst_o = PST(&spatial, pst_parameters_mob);
 
   calculation_path = "HeatTransfer";
   auto pst_parameters_heat =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
                  Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
-                 Parameter("enable_compute_energies", false));
+                 Parameter("enable_compute_energies", false), Parameter("saveGF", saveGF));
   auto heat_pst = PST(&spatial, pst_parameters_heat);
 
   calculation_path = "Melting";
   auto pst_parameters_ac =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
                  Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
-                 Parameter("enable_compute_energies", false));
+                 Parameter("enable_compute_energies", false), Parameter("saveGF", saveGF));
   auto ac_pst = PST(&spatial, pst_parameters_ac);
 
   calculation_path = "MobilitiesU";
   auto pst_parameters_mob_u =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
-                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter));
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
+                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
+                 Parameter("saveGF", saveGF));
   auto mob_pst_u = PST(&spatial, pst_parameters_mob_u);
 
   calculation_path = "InterDiffusion_o";
   auto pst_parameters =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
                  Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
-                 Parameter("enable_compute_energies", false));
+                 Parameter("enable_compute_energies", false), Parameter("saveGF", saveGF));
   auto interdiffu_pst = PST(&spatial, pst_parameters);
   calculation_path = "Calphad";
   auto cc_pst_parameters =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
-                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter));
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
+                 Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
+                 Parameter("saveGF", saveGF));
   auto cc_pst = PST(&spatial, cc_pst_parameters);
 
   calculation_path = "InterDiffusion_u";
   auto diffu_pst_parameters =
       Parameters(Parameter("main_folder_path", main_folder_path),
-                 Parameter("calculation_path", calculation_path), Parameter("frequency", frequency),
+                 Parameter("calculation_path", calculation_path),
+                 Parameter("iterations_list", iterations_list),
                  Parameter("enable_save_specialized_at_iter", enable_save_specialized_at_iter),
-                 Parameter("enable_compute_energies", false));
+                 Parameter("enable_compute_energies", false), Parameter("saveGF", saveGF));
   auto interdiffu_pst_u = PST(&spatial, diffu_pst_parameters);
+  //   auto pst_parameters_mob =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("saveGF", saveGF));
+  //   auto mob_pst_o = PST(&spatial, pst_parameters_mob);
+
+  //   calculation_path = "HeatTransfer";
+  //   auto pst_parameters_heat =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("enable_compute_energies", false),
+  //                  Parameter("saveGF", saveGF));
+  //   auto heat_pst = PST(&spatial, pst_parameters_heat);
+
+  //   calculation_path = "Melting";
+  //   auto pst_parameters_ac =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("enable_compute_energies", false),
+  //                  Parameter("saveGF", saveGF));
+  //   auto ac_pst = PST(&spatial, pst_parameters_ac);
+
+  //   calculation_path = "MobilitiesU";
+  //   auto pst_parameters_mob_u =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("saveGF", saveGF));
+  //   auto mob_pst_u = PST(&spatial, pst_parameters_mob_u);
+
+  //   calculation_path = "InterDiffusion_o";
+  //   auto pst_parameters =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("enable_compute_energies", false),
+  //                  Parameter("saveGF", saveGF));
+  //   auto interdiffu_pst = PST(&spatial, pst_parameters);
+  //   calculation_path = "Calphad";
+  //   auto cc_pst_parameters =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("saveGF", saveGF));
+  //   auto cc_pst = PST(&spatial, cc_pst_parameters);
+
+  //   calculation_path = "InterDiffusion_u";
+  //   auto diffu_pst_parameters =
+  //       Parameters(Parameter("main_folder_path", main_folder_path),
+  //                  Parameter("calculation_path", calculation_path), Parameter("frequency",
+  //                  frequency), Parameter("enable_save_specialized_at_iter",
+  //                  enable_save_specialized_at_iter), Parameter("enable_compute_energies", false),
+  //                  Parameter("saveGF", saveGF));
+  //   auto interdiffu_pst_u = PST(&spatial, diffu_pst_parameters);
 
   //-----------------------
   // Problems
