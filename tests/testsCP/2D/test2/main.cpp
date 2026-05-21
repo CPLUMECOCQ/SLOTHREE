@@ -380,8 +380,8 @@ int main(int argc, char* argv[]) {
   std::vector<std::size_t> indexgf = {2, 4};
   auto list_of_aux_gf_index_for_tabulation =
       Parameter("list_of_aux_gf_index_for_tabulation", indexgf);
-  std::map<std::string, std::string> hffilename = {{"C1_MO2", "hdf5files/" + p.solidh5file},
-                                                   {"LIQUID", "hdf5files/" + p.liquidh5file}};
+  std::map<std::string, std::string> hffilename = {{"C1_MO2",  p.solidh5file},
+                                                   {"LIQUID",  p.liquidh5file}};
   std::map<std::string, std::size_t> nbreOctree = {{"C1_MO2", 12}, {"LIQUID", 12}};
   auto paramh5file = Parameter("data_filename", hffilename);
   auto paramnbreOctree = Parameter("data_nbreOctree_by_phase", nbreOctree);

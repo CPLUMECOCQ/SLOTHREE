@@ -88,8 +88,8 @@ std::array<std::size_t, DIM> TTCores<DIM>::compute_weight_for_TT_interpolation(
     x0 = coord_grid[d][lower_indices[d]];
     x1 = coord_grid[d][lower_indices[d] + 1];
     dx = x1 - x0;
-    weights.wkp1[d] = (pd - x0) / dx;
-    // weights.wkp1[d] = dx > 1e-10 ? ((point_to_interpolate[d] - x0) / dx) : 0.;
+    // weights.wkp1[d] = (pd - x0) / dx;
+    weights.wkp1[d] = dx > 1e-10 ? ((pd - x0) / dx) : 0.;
     weights.wk[d] = 1. - weights.wkp1[d];
   }
   return lower_indices;

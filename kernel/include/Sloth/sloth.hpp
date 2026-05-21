@@ -45,6 +45,8 @@
 #include "HyperOctree/HyperOctreeGrid.hpp"
 #include "LowRankApprox/TTCores.hpp"
 #include "LowRankApprox/TT_Interpolation.hpp"
+#include "LowRankApprox/PARAFACReconstruction.hpp"
+#include "LowRankApprox/PARAFAC2SLOTHInterface.hpp"
 #include "HyperOctree/ImplicitHyperOctree.hpp" 
 #include "HyperOctree/LeafOffset.hpp" 
 #include "HyperOctree/MortonIndex.hpp" 

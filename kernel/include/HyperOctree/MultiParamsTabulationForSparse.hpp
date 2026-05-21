@@ -1,4 +1,13 @@
-
+/**
+ * @file MultiParamsTabulationForSparse.hpp
+ * @author cp273896 (clement.plumecocq@cea.fr)
+ * @brief 
+ * @version 0.1
+ * @date 2026-05-21
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include <H5Cpp.h>
 
 #include <algorithm>

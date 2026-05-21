@@ -1,4 +1,13 @@
-
+/**
+ * @file TT_Interpolation.hpp
+ * @author cp273896 (clement.plumecocq@cea.fr)
+ * @brief 
+ * @version 0.1
+ * @date 2026-05-21
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #include <H5Cpp.h>
 
 #include <algorithm>
@@ -139,9 +148,9 @@ void TT_Interpolation<T, DIM>::get_parameters() {
       this->params_.template get_param_value_or_default<std::map<std::string, std::vector<double>>>(
           "temperature_map", {});
 
-  this->nbreOctree =
-      this->params_.template get_param_value_or_default<std::map<std::string, std::size_t>>(
-          "data_nbreOctree_by_phase", std::map<std::string, std::size_t>{});
+  this->filename =
+      this->params_.template get_param_value_or_default<std::map<std::string, std::string>>(
+          "data_filename", {});
 
   this->given_phase_ =
       this->params_.template get_param_value_or_default<std::string>("GivenPhase", "");
@@ -196,8 +205,8 @@ void TT_Interpolation<T, DIM>::initialize(
     const std::vector<std::tuple<std::string, std::string>>& sorted_chemical_system) {
   Catch_Time_Section("TT_Interpolation::initialize");
 
-  std::string files = "sol_tensor_train_rank_20.h5";
-  std::string filel = "liq_tensor_train_rank_20.h5";
+  std::string files = this->filename["C1_MO2"];  //"sol_tensor_train_rank_20.h5";
+  std::string filel = this->filename["LIQUID"];  // "liq_tensor_train_rank_20.h5";
 
   std::vector<std::string> coord_grid = {"T", "O", "U"};
 
@@ -376,7 +385,6 @@ void TT_Interpolation<T, DIM>::compute(
         mapForChemicalPot[given_phase]["U"].get_value_on_grid(point_to_interpolate);
     this->chemical_potentials_[{id, "PU"}] =
         mapForChemicalPot[given_phase]["PU"].get_value_on_grid(point_to_interpolate);
-    // Calculer les potentiels chimiques, fractions molaires et mobilités
 
     // Potentiels chimiques
 
