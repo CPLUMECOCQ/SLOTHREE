@@ -128,7 +128,7 @@ auto Parameter::get_value() const -> param_type {
                       std::is_same_v<T, std::vector<std::vector<std::string>>> ||
                       std::is_same_v<T, std::map<std::string, std::vector<double>>> ||
                       std::is_same_v<T, std::map<std::string, std::string>> ||
-                      std::is_same_v<T, std::map<std::string, std::size_t>> ||
+                      std::is_same_v<T, std::map<std::string, std::size_t>> || std::is_same_v<T, InterfaceClosureLaw> ||
                       std::is_same_v<
                           T,
                           std::vector<std::function<double(const std::vector<double>&, double)>>>) {

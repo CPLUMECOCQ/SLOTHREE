@@ -42,6 +42,7 @@
 #include "Coefficients/CommonCoefficients.hpp"
 #include "MAToolsProfiling/MATimersAPI.hxx"
 #include "Options/Options.hpp"
+#include "Options/PhaseFieldOptions.hpp"
 #include "Parameters/Parameter.hpp"
 #include "Parameters/Parameters.hpp"
 
@@ -57,19 +58,42 @@ CalphadBase<T>::CalphadBase(const Parameters& params) : CalphadBase(params, fals
   this->get_parameters();
 }
 
+// /**
+//  * @brief Construct a new CalphadBase object.
+//  *
+//  * @tparam T The type parameter.
+//  * @param params The parameters to initialize the CalphadBase object.
+//  * @param is_KKS A boolean flag indicating whether to initialize KKS.
+//  */
+// template <typename T>
+// CalphadBase<T>::CalphadBase(const Parameters& params, bool is_KKS)
+//     : is_KKS_(is_KKS), params_(params) {
+//   this->KKS_ = std::make_shared<KKS<T>>();
+//   this->get_parameters();
+// }
+
 /**
- * @brief Construct a new CalphadBase object.
+ * @brief Construct a new Calphad Base< T>:: Calphad Base object
  *
- * @tparam T The type parameter.
- * @param params The parameters to initialize the CalphadBase object.
- * @param is_KKS A boolean flag indicating whether to initialize KKS.
+ * @tparam T
+ * @param params
+ * @param is_KKS
  */
 template <typename T>
-CalphadBase<T>::CalphadBase(const Parameters& params, bool is_KKS)
-    : is_KKS_(is_KKS), params_(params) {
-  this->KKS_ = std::make_shared<KKS<T>>();
-  this->KKS_->initialize();
+CalphadBase<T>::CalphadBase(const Parameters& params, InterfaceClosureLaw interface_closure_law)
+    : params_(params), interface_closure_law_(interface_closure_law) {
+  switch (interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      KKS_ = std::make_shared<KKS<T>>();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      std::cout << "heho";
+      break;
+  }
+
   this->get_parameters();
+
 }
 
 /**
@@ -82,8 +106,12 @@ template <typename T>
 void CalphadBase<T>::get_parameters() {
   this->element_removed_from_ic_ = this->params_.template get_param_value_or_default<std::string>(
       "element_removed_from_ic", CalphadDefaultConstant::element_removed_from_ic);
-  if (this->is_KKS_) {
-    this->KKS_->get_parameters(*this);
+
+  switch (interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      this->KKS_->get_parameters(*this);
+
+      break;
   }
 }
 
@@ -118,25 +146,31 @@ void CalphadBase<T>::global_execute(
   this->clear_containers();
 
   // Execute
-  if (!this->is_KKS_) {
-    // Creation list of nodes
-    std::set<int> list_nodes;
-    for (unsigned int i = 0; i < nb_nodes; ++i) {
-      list_nodes.insert(i);
+  switch (interface_closure_law_) {
+    case InterfaceClosureLaw::No: {
+      // Creation list of nodes
+      std::set<int> list_nodes;
+      for (unsigned int i = 0; i < nb_nodes; ++i) {
+        list_nodes.insert(i);
+      }
+      this->execute(dt, list_nodes, tp_gf, chemicalsystem);
+      break;
     }
-    this->execute(dt, list_nodes, tp_gf, chemicalsystem);
-  } else {
-    // Verify that all required fields are available for KKS execution
-    MFEM_VERIFY(phase_field_gf.has_value(),
-                "Error: phase_fields_gf is required for KKS execution.");
-    MFEM_VERIFY(tp_gf_old.has_value(), "Error: tp_gf_old is required for KKS execution.");
-    MFEM_VERIFY(x_gf.has_value(), "Error: x_gf is required for KKS execution.");
-    MFEM_VERIFY(coordinates.has_value(), "Error: coordinates is required for KKS execution.");
+    case InterfaceClosureLaw::LinearizedKKS: {
+      // Verify that all required fields are available for KKS execution
+      MFEM_VERIFY(phase_field_gf.has_value(),
+                  "Error: phase_fields_gf is required for KKS execution.");
+      MFEM_VERIFY(tp_gf_old.has_value(), "Error: tp_gf_old is required for KKS execution.");
+      MFEM_VERIFY(x_gf.has_value(), "Error: x_gf is required for KKS execution.");
+      MFEM_VERIFY(coordinates.has_value(), "Error: coordinates is required for KKS execution.");
 
-    // Execute KKS linearization
-    this->KKS_->execute_linearization(*this, dt, time_step, tp_gf, *tp_gf_old, *phase_field_gf,
-                                      chemicalsystem, *x_gf, *coordinates);
+      // Execute KKS linearization
+      this->KKS_->execute_linearization(*this, dt, time_step, tp_gf, *tp_gf_old, *phase_field_gf,
+                                        chemicalsystem, *x_gf, *coordinates);
+      break;
+    }
   }
+
   // Use specific CALPHAD C++ containers to update output_system
   this->update_outputs(dt, nb_nodes, output_system, previous_output_system);
 }
@@ -160,8 +194,9 @@ void CalphadBase<T>::clear_containers() {
   this->nucleus_.clear();
   this->mobilities_.clear();
   this->error_equilibrium_.clear();
-  if (this->is_KKS_) {
-    this->KKS_->clear_containers();
+  switch (interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      this->KKS_->clear_containers();
   }
 }
 

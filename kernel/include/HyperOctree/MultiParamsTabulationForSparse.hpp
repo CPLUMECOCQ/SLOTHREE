@@ -28,6 +28,7 @@
 #include "Calphad/CalphadUtils.hpp"
 #include "IO/HDF54Sloth.hpp"
 #include "Interpolators/MultiLinearInterpolator.hpp"
+#include "Options/PhaseFieldOptions.hpp"
 #include "MAToolsProfiling/MATimersAPI.hxx"
 #include "Options/Options.hpp"
 #include "Parameters/Parameter.hpp"
@@ -85,6 +86,7 @@ class MultiParamsTabulationForSparse : public CalphadBase<T> {
   constexpr explicit MultiParamsTabulationForSparse(const Parameters& params);
 
   constexpr MultiParamsTabulationForSparse(const Parameters& params, bool is_KKS);
+  constexpr MultiParamsTabulationForSparse(const Parameters& params, InterfaceClosureLaw interface_closure_law);
 
   void initialize(
       const std::vector<std::tuple<std::string, std::string>>& sorted_chemical_system) override;
@@ -197,6 +199,22 @@ constexpr MultiParamsTabulationForSparse<T, DIM>::MultiParamsTabulationForSparse
   this->CU_ = std::make_unique<CalphadUtils<T>>();
   this->get_parameters();
 }
+
+/**
+ * @brief Construct a new MultiParamsTabulationForSparse::MultiParamsTabulationForSparse object
+ *
+ * @param params
+ */
+template <typename T, std::size_t DIM>
+constexpr MultiParamsTabulationForSparse<T, DIM>::MultiParamsTabulationForSparse(
+    const Parameters& params, InterfaceClosureLaw interface_closure_law)
+    : CalphadBase<T>(params, interface_closure_law), fichier("composition.domain", std::ios::app) {
+  std::cout << "constexpr MultiParamsTabulationForSparse<T, DIM>::MultiParamsTabulationForSparse("
+ << std::endl;
+  this->CU_ = std::make_unique<CalphadUtils<T>>();
+  this->get_parameters();
+}
+
 
 /**
  * @brief Initialization of the thermodynamic calculation

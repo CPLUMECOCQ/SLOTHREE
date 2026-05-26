@@ -45,6 +45,7 @@
 #include "Parameters/Parameter.hpp"
 #include "Parameters/Parameters.hpp"
 
+
 // Previous declaration of the KKS class
 template <typename T>
 class KKS;
@@ -81,6 +82,7 @@ class CalphadBase {
           previous_output_system);
 
  public:
+  InterfaceClosureLaw interface_closure_law_;
   // Parameters for CALPHAD problems
   const Parameters& params_;
 
@@ -114,7 +116,8 @@ class CalphadBase {
   void clear_time_specialized();
 
   explicit CalphadBase(const Parameters& params);
-  CalphadBase(const Parameters& params, bool is_KKS);
+//   CalphadBase(const Parameters& params, bool is_KKS);
+  CalphadBase(const Parameters& params, InterfaceClosureLaw interface_closure_law);
 
   virtual void get_parameters();
 

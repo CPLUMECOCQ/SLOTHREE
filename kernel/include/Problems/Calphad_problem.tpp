@@ -66,13 +66,28 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
+        std::cout << "apres check_variables_consistency 1" << std::endl;
 
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
 }
 
 /**
@@ -97,13 +112,27 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
+        std::cout << "apres check_variables_consistency 2" << std::endl;
 
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
 }
 
 /**
@@ -132,12 +161,27 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+          std::cout << "apres check_variables_consistency 3" << std::endl;
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
 }
 
 /**
@@ -163,11 +207,26 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+          std::cout << "apres check_variables_consistency 4" << std::endl;
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
 }
 
@@ -194,12 +253,27 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
+          std::cout << "apres check_variables_consistency 5" << std::endl;
 
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
 }
 
@@ -223,12 +297,30 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
+        std::cout << "apres check_variables_consistency 6" << std::endl;
+std::cout << static_cast<int>(interface_closure_law_) << std::endl;
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
+          std::cout << " new CALPHAD(params, this->interface_closure_law_);" << std::endl;
 
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+            std::cout << " nget_chemical_system;" << std::endl;
+
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
 }
 
@@ -256,11 +348,26 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+          std::cout << "apres check_variables_consistency 7 " << std::endl;
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
 }
 
@@ -286,11 +393,25 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
   // Mandatory to be placed before CALPHAD pointer creation
   this->get_parameters();
   this->check_variables_consistency();
-  this->CC_ = new CALPHAD(params, this->is_KKS_);
+          std::cout << "apres check_variables_consistency 8 " << std::endl;
+
+  this->CC_ = new CALPHAD(params, this->interface_closure_law_);
   this->sorted_chemical_system_ = this->get_chemical_system();
-  if (this->is_KKS_) {
-    this->check_phasefield();
-    this->check_molar_fractions();
+  // if (this->is_KKS_) {
+  //   this->check_phasefield();
+  //   this->check_molar_fractions();
+  // }
+  switch (this->interface_closure_law_) {
+    case InterfaceClosureLaw::LinearizedKKS:
+      std::cout << "heho on passe bien ici" << std::endl;
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
+
+    case InterfaceClosureLaw::HyperOctreeKKS:
+      this->check_phasefield();
+      this->check_molar_fractions();
+      break;
   }
 }
 
@@ -488,25 +609,25 @@ void Calphad_Problem<CALPHAD, VAR, PST>::do_time_step(
   const size_t unk_size = vect_unk.size();
 
   // Execute
-  if (!this->is_KKS_) {
-    // Calculate equilibrium at each node of the mesh without KKS algorithm
-    this->CC_->global_execute(iter, current_time_step, tp_gf, this->sorted_chemical_system_,
-                              output_system, previous_output);
-  } else {
-    // Specific treatment for KKS problems
-    std::tuple<std::string, mfem::Vector, mfem::Vector> phasefields_gf = this->get_phasefields();
-    // Coordinates of each nodes to assess the radius of nucleii
-    std::vector<std::tuple<std::string, mfem::Vector>> coordinates_gf = this->get_coordinates();
-    // initial conditions at the previous time-step
-    std::vector<mfem::Vector> tp_gf_old = this->get_old_tp_conditions();
-    // Molar fractions by phase at current and previous time-step : vector<element, phase, x, x_old>
-    std::vector<std::tuple<std::string, std::string, mfem::Vector, mfem::Vector>> x_phase_gf =
-        this->get_molar_fractions();
+  switch (interface_closure_law_) {
+    case InterfaceClosureLaw::No:
+      this->CC_->global_execute(iter, current_time_step, tp_gf, this->sorted_chemical_system_,
+                                output_system, previous_output);
+    default:  // Specific treatment for KKS problems
+      std::tuple<std::string, mfem::Vector, mfem::Vector> phasefields_gf = this->get_phasefields();
+      // Coordinates of each nodes to assess the radius of nucleii
+      std::vector<std::tuple<std::string, mfem::Vector>> coordinates_gf = this->get_coordinates();
+      // initial conditions at the previous time-step
+      std::vector<mfem::Vector> tp_gf_old = this->get_old_tp_conditions();
+      // Molar fractions by phase at current and previous time-step : vector<element, phase, x,
+      // x_old>
+      std::vector<std::tuple<std::string, std::string, mfem::Vector, mfem::Vector>> x_phase_gf =
+          this->get_molar_fractions();
 
-    // Calculate equilibrium at each node of the mesh with KKS algorithm
-    this->CC_->global_execute(iter, current_time_step, tp_gf, this->sorted_chemical_system_,
-                              output_system, previous_output, phasefields_gf, tp_gf_old, x_phase_gf,
-                              coordinates_gf);
+      // Calculate equilibrium at each node of the mesh with KKS algorithm
+      this->CC_->global_execute(iter, current_time_step, tp_gf, this->sorted_chemical_system_,
+                                output_system, previous_output, phasefields_gf, tp_gf_old,
+                                x_phase_gf, coordinates_gf);
   }
 
   // Recover unknowns
@@ -528,6 +649,10 @@ void Calphad_Problem<CALPHAD, VAR, PST>::do_time_step(
 template <class CALPHAD, class VAR, class PST>
 void Calphad_Problem<CALPHAD, VAR, PST>::get_parameters() {
   this->is_KKS_ = this->params_.template get_param_value_or_default<bool>("enable_KKS", false);
+  this->interface_closure_law_ =
+      this->params_.template get_param_value_or_default<InterfaceClosureLaw>(
+          "closure_law", InterfaceClosureLaw::No);
+
 }
 
 /**

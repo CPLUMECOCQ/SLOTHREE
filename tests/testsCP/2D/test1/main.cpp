@@ -42,12 +42,12 @@ struct TestParameters {
 };
 
 void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
-  args.AddOption(&p.control_kks_seed, "-s", "--kks_seed", "Seed of liquid to initiate melting.");
+  args.AddOption(&p.control_kks_seed, "-s", "--kks_seed", "Seed of LIQUID to initiate melting.");
   args.AddOption(&p.control_kks_radius, "-r", "--kks_radius", "Radius of the initial seed.");
   args.AddOption(&p.control_kks_threshold, "-e", "--kks_threshold",
                  "Threshold for KKS calculations.");
   args.AddOption(&p.control_temperature_threshold, "-te", "--kks_temp_threshold",
-                 "Minimal temperature for searching liquid during KKS calculations.");
+                 "Minimal temperature for searching LIQUID during KKS calculations.");
   args.AddOption(&p.control_KKS_given_melting_temperature, "-tm", "--kks_melting_temp",
                  "Given melting temperature for KKS calculations.");
   args.AddOption(&p.control_KKS_enable_save_specialized, "-p", "--save-specialized", "-np",
@@ -57,7 +57,7 @@ void common_parameters(mfem::OptionsParser& args, TestParameters& p) {
   args.AddOption(&p.control_final_time, "-t", "--final_time", "Final time of the simulation.");
   args.AddOption(&p.control_time_step, "-dt", "--time_step",
                  "Constant time-step of the simulation.");
-  args.AddOption(&p.liquidh5file, "-h5liq", "--liquid_h5_file", "file for liquid phase");
+  args.AddOption(&p.liquidh5file, "-h5liq", "--liquid_h5_file", "file for LIQUID phase");
   args.AddOption(&p.solidh5file, "-h5sol", "--solid_h5_file", "file for solid phase");
   args.AddOption(&p.savefold, "-savefold", "--savefold", "folder to save");
 
@@ -299,7 +299,7 @@ int main(int argc, char* argv[]) {
       VAR(&spatial, calphad_bcs, "Mpu", Glossary::InterDiffusionMobility, level_of_storage, 1.e-15);
   lmobPU.set_additional_information("LIQUID", "PU", "mob");
 
-  auto mob_liquid = VARS(lmobO, lmobU, lmobPU);
+  auto mob_LIQUID = VARS(lmobO, lmobU, lmobPU);
 
   // Driving forces
   auto dgm_s = VAR(&spatial, calphad_bcs, "DGM_s", Glossary::DrivingForce, level_of_storage, 0.);
@@ -395,11 +395,13 @@ int main(int argc, char* argv[]) {
   for (double T = 700.; T <= 3500.; T += 10.) temperature_vec["C1_MO2"].push_back(T);
   for (double T = 2500.; T <= 4000.; T += 10.) temperature_vec["LIQUID"].push_back(T);
   auto paramtemperature = Parameter("temperature_map", temperature_vec);
+  auto closure_interface = Parameter("closure_law", InterfaceClosureLaw::LinearizedKKS);
 
-  auto calphad_parameters = Parameters(
-      description_calphad, paramh5file, list_of_aux_gf_index_for_tabulation,
-      list_of_dataset_tabulation_parameters, list_of_elements, input_interpol_dim,
-      element_removed_from_ic, paramfamilies, paramsubvar, paramtemperature, paramnbreOctree);
+  auto calphad_parameters =
+      Parameters(description_calphad, paramh5file, list_of_aux_gf_index_for_tabulation,
+                 list_of_dataset_tabulation_parameters, list_of_elements, input_interpol_dim,
+                 element_removed_from_ic, paramfamilies, paramsubvar, paramtemperature,
+                 paramnbreOctree, closure_interface);
   /// END PARAMETERS SPARSE
 
   auto KKS_secondary_phase = Parameter("KKS_secondary_phase", "LIQUID");
@@ -418,7 +420,6 @@ int main(int argc, char* argv[]) {
   auto KKS_given_melting_temperature =
       Parameter("KKS_given_melting_temperature", p.control_KKS_given_melting_temperature);
   auto KKS_mobility = Parameter("KKS_mobility", mob);
-
   auto enable_KKS = Parameter("enable_KKS", true);
   auto KKS_parameters =
       Parameters(KKS_enable_specialized, KKS_secondary_phase, KKS_temperature_increment,
@@ -669,7 +670,7 @@ int main(int argc, char* argv[]) {
 
   Property_problem<InterDiffusionCoefficient, VARS, PST> oxygen_interdiffusion_mobilities(
       "Oxygen inter-diffusion mobilities", ppo_parameters, MO, mob_pst_o, xo_vars, xu_vars,
-      heat_vars, calphad_outputs, var_phi, mob_liquid);
+      heat_vars, calphad_outputs, var_phi, mob_LIQUID);
 
   PB interdiffu_problem_o("Interdiffusion O", interdiffu_oper_o, xo_vars, {coef_inter},
                           interdiffu_pst, calphad_outputs, MO, heat_vars);
@@ -684,7 +685,7 @@ int main(int argc, char* argv[]) {
 
   Property_problem<InterDiffusionCoefficient, VARS, PST> uranium_interdiffusion_mobilities(
       "Uranium inter-diffusion mobilities", ppu_parameters, MU, mob_pst_u, xo_vars, xu_vars,
-      heat_vars, calphad_outputs, var_phi, mob_liquid);
+      heat_vars, calphad_outputs, var_phi, mob_LIQUID);
 
   PB interdiffu_problem_u("Interdiffusion U", interdiffu_oper_u, xu_vars, {coef_inter},
                           interdiffu_pst_u, calphad_outputs, MU, heat_vars);

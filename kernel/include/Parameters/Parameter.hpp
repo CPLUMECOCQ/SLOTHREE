@@ -38,7 +38,7 @@ using param_type =
                  vDouble, vInt, std::function<double(double)>, std::vector<std::size_t>,
                  std::vector<std::vector<std::string>>, std::map<std::string, std::vector<double>>,
                  std::map<std::string, std::string>, std::map<std::string, std::size_t>,
-                 std::vector<std::function<double(const std::vector<double>&, double)>>>;
+                 std::vector<std::function<double(const std::vector<double>&, double)>>,InterfaceClosureLaw>;
 
 class Parameter {
  private:

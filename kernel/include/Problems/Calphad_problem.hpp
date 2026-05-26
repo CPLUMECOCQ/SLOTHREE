@@ -46,6 +46,7 @@ class Calphad_Problem : public ProblemBase<VAR, PST> {
   const Parameters& params_;
   bool is_KKS_;
   CALPHAD* CC_;
+  InterfaceClosureLaw interface_closure_law_;
   int findIndexOfTuple(const std::vector<std::tuple<std::string, std::string>>& vec,
                        const std::string& target);
   void check_variables_consistency();
