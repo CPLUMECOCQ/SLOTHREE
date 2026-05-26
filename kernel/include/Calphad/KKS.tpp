@@ -57,7 +57,6 @@ KKS<T>::KKS() {
   this->interpolation_func_ =
       std::make_shared<Coefficient>(Glossary::InterpolationFunction, Scheme::Implicit, H());
 }
-
 template <typename T>
 void KKS<T>::initialize() {}
 /**

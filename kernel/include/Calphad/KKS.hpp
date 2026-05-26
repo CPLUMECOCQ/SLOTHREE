@@ -44,7 +44,9 @@
 #include "Options/Options.hpp"
 #include "Parameters/Parameter.hpp"
 #include "Parameters/Parameters.hpp"
-
+#include "HyperOctree/HyperOctree.hpp"
+#include "HyperOctree/HyperOctreeGrid.hpp"
+#include "HyperOctree/ImplicitHyperOctree.hpp"
 /**
  * @brief Linearized KKS problem for two-phase multi-component system
  *
@@ -143,6 +145,11 @@ class KKS {
   std::map<std::tuple<int, int, std::string, std::string>, double> chemical_potentials_left_x_;
   std::map<std::tuple<int, std::string, std::string>, double> chemical_potentials_right_T_;
   std::map<std::tuple<int, int, std::string, std::string>, double> chemical_potentials_right_x_;
+
+  std::vector<HyperOctreeGrid<ImplicitHyperOctree, double, 2>> GridForKKSdata;
+  std::vector<std::string> phis_string;
+  std::vector<double> phis;
+  std::vector<double> temperatures;
 
  public:
   KKS();
