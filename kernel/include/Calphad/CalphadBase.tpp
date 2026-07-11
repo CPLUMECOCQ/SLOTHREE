@@ -39,6 +39,7 @@
 #include <vector>
 
 #include "Calphad/CalphadUtils.hpp"
+#include "Calphad/KKS_GradTT.hpp"
 #include "Coefficients/CommonCoefficients.hpp"
 #include "MAToolsProfiling/MATimersAPI.hxx"
 #include "Options/Options.hpp"
@@ -83,17 +84,18 @@ template <typename T>
 CalphadBase<T>::CalphadBase(const Parameters& params, InterfaceClosureLaw interface_closure_law)
     : params_(params), interface_closure_law_(interface_closure_law) {
   switch (interface_closure_law_) {
-    case InterfaceClosureLaw::LinearizedKKS:
+    case InterfaceClosureLaw::LinearizedKKS: {
       KKS_ = std::make_shared<KKS<T>>();
       break;
-
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    }
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT: {
       std::cout << "heho";
+      KKS_GradTT_ = std::make_shared<KKS_GradTT<T>>();
       break;
+    }
   }
 
   this->get_parameters();
-
 }
 
 /**
@@ -108,10 +110,15 @@ void CalphadBase<T>::get_parameters() {
       "element_removed_from_ic", CalphadDefaultConstant::element_removed_from_ic);
 
   switch (interface_closure_law_) {
-    case InterfaceClosureLaw::LinearizedKKS:
+    case InterfaceClosureLaw::LinearizedKKS: {
       this->KKS_->get_parameters(*this);
-
       break;
+    }
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT: {
+      this->KKS_GradTT_->get_parameters(*this);
+      this->KKS_GradTT_->initialize();
+      break;
+    }
   }
 }
 
@@ -169,6 +176,20 @@ void CalphadBase<T>::global_execute(
                                         chemicalsystem, *x_gf, *coordinates);
       break;
     }
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT: {
+      // Verify that all required fields are available for KKS execution
+      MFEM_VERIFY(phase_field_gf.has_value(),
+                  "Error: phase_fields_gf is required for KKS execution.");
+      MFEM_VERIFY(tp_gf_old.has_value(), "Error: tp_gf_old is required for KKS execution.");
+      MFEM_VERIFY(x_gf.has_value(), "Error: x_gf is required for KKS execution.");
+      MFEM_VERIFY(coordinates.has_value(), "Error: coordinates is required for KKS execution.");
+
+      // Execute KKS linearization
+      this->KKS_GradTT_->execute_linearization(*this, dt, time_step, tp_gf, *tp_gf_old,
+                                               *phase_field_gf, chemicalsystem, *x_gf,
+                                               *coordinates);
+      break;
+    }
   }
 
   // Use specific CALPHAD C++ containers to update output_system
@@ -195,8 +216,14 @@ void CalphadBase<T>::clear_containers() {
   this->mobilities_.clear();
   this->error_equilibrium_.clear();
   switch (interface_closure_law_) {
-    case InterfaceClosureLaw::LinearizedKKS:
+    case InterfaceClosureLaw::LinearizedKKS: {
       this->KKS_->clear_containers();
+      break;
+    }
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT: {
+      this->KKS_GradTT_->clear_containers();
+      break;
+    }
   }
 }
 

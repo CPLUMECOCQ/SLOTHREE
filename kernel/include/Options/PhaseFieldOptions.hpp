@@ -35,4 +35,4 @@ enum class PhaseChange { Null, Constant, Calphad };
 
 enum class ThermodynamicsPotentials { W, WW, F, H, X, LOG };
 enum class ThermodynamicsPotentialDiscretization { Implicit, Explicit, SemiImplicit };
-enum class InterfaceClosureLaw { No, LinearizedKKS, HyperOctreeKKS };
+enum class InterfaceClosureLaw { No, LinearizedKKS, LinearizedKKSWithGradTT };

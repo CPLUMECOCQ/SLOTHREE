@@ -45,10 +45,12 @@
 #include "Parameters/Parameter.hpp"
 #include "Parameters/Parameters.hpp"
 
-
 // Previous declaration of the KKS class
 template <typename T>
 class KKS;
+
+template <typename T>
+class KKS_GradTT;
 
 template <typename T>
 class CalphadBase {
@@ -58,6 +60,7 @@ class CalphadBase {
  protected:
   // Smart pointer used for KKS studies
   std::shared_ptr<KKS<T>> KKS_;
+  std::shared_ptr<KKS_GradTT<T>> KKS_GradTT_;
 
   // Common methods for CALPHAD studies
   std::shared_ptr<CalphadUtils<T>> CU_;
@@ -116,7 +119,7 @@ class CalphadBase {
   void clear_time_specialized();
 
   explicit CalphadBase(const Parameters& params);
-//   CalphadBase(const Parameters& params, bool is_KKS);
+  //   CalphadBase(const Parameters& params, bool is_KKS);
   CalphadBase(const Parameters& params, InterfaceClosureLaw interface_closure_law);
 
   virtual void get_parameters();

@@ -1,12 +1,12 @@
 /**
  * @file TT_Interpolation.hpp
  * @author cp273896 (clement.plumecocq@cea.fr)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2026-05-21
- * 
+ *
  * @copyright Copyright (c) 2026
- * 
+ *
  */
 #include <H5Cpp.h>
 
@@ -81,6 +81,7 @@ class TT_Interpolation : public CalphadBase<T> {
   constexpr explicit TT_Interpolation(const Parameters& params);
 
   constexpr TT_Interpolation(const Parameters& params, bool is_KKS);
+  constexpr TT_Interpolation(const Parameters& params, InterfaceClosureLaw interface_closure_law);
 
   void initialize(
       const std::vector<std::tuple<std::string, std::string>>& sorted_chemical_system) override;
@@ -196,6 +197,18 @@ constexpr TT_Interpolation<T, DIM>::TT_Interpolation(const Parameters& params, b
   this->get_parameters();
 }
 
+/**
+ * @brief Construct a new MultiParamsTabulationForSparse::MultiParamsTabulationForSparse object
+ *
+ * @param params
+ */
+template <typename T, std::size_t DIM>
+constexpr TT_Interpolation<T, DIM>::TT_Interpolation(const Parameters& params,
+                                                     InterfaceClosureLaw interface_closure_law)
+    : CalphadBase<T>(params, interface_closure_law), fichier("composition.domain", std::ios::app) {
+  this->CU_ = std::make_unique<CalphadUtils<T>>();
+  this->get_parameters();
+}
 /**
  * @brief Initialization of the thermodynamic calculation
  * @tparam T

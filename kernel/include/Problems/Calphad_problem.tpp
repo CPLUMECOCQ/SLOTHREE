@@ -79,7 +79,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -124,7 +124,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -173,7 +173,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -223,7 +223,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -270,7 +270,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const Parameters& params, VA
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -317,7 +317,7 @@ std::cout << static_cast<int>(interface_closure_law_) << std::endl;
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -364,7 +364,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;
@@ -408,7 +408,7 @@ Calphad_Problem<CALPHAD, VAR, PST>::Calphad_Problem(const std::string& name,
       this->check_molar_fractions();
       break;
 
-    case InterfaceClosureLaw::HyperOctreeKKS:
+    case InterfaceClosureLaw::LinearizedKKSWithGradTT:
       this->check_phasefield();
       this->check_molar_fractions();
       break;

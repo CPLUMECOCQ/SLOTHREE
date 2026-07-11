@@ -158,13 +158,11 @@ void TTCores<DIM>::import_cores_from_hdf5(std::string filename, std::string var,
         double val;
         attr.read(H5::PredType::NATIVE_DOUBLE, &val);
         this->normalization_factor = static_cast<double>(val);
-        std::cout << "ICI FACTEUR" << this->normalization_factor << std::endl;
       }
     }
   }
   new_tmp.resize(maxr);
   temp.resize(maxr);
-  std::cout << "Cores loaded \n";
 }
 
 /**
